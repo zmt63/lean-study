@@ -361,3 +361,55 @@ example : weirdGrid 3 3 (by norm_num) (by norm_num) exampleGrid := by
 
 #eval countUp exampleGrid ⟨2, by decide⟩ ⟨0, by decide⟩      -- 1
 #eval countRight exampleGrid ⟨2, by decide⟩ ⟨0, by decide⟩   -- 2
+
+
+#eval String.append "hello" (String.append "B" "C")
+#eval 42 + 19
+#eval String.append (String.append "B" "C") "D"
+#eval if 3 == 3 then 5 else 7
+#eval if 3 == 4 then "equal" else "Not equal"
+
+-- 以下是FPIL的第一章的习题和个人类型编写和函数
+
+/- 定义一个函数 joinStringsWith，类型为 String → String → String → String，该函数通过将第一个参数插入到第二个和第三个参数之间来创建一个新字符串。joinStringsWith ", " "one" "and another" 应当求值为 "one, and another"。
+
+• joinStringsWith ": " 的类型是什么？用 Lean 检查你的答案。
+
+• 定义一个函数 volume，类型为 Nat → Nat → Nat → Nat，用于计算给定高度、宽度和深度的长方体的体积。-/
+
+def joinStringwith : String → String → String → String := fun a b c => String.append (String.append b a) c
+
+#eval joinStringwith "1" "2" "3"
+#check joinStringwith
+
+def volume : Nat → Nat → Nat → Nat := fun a b c => a * b * c
+
+#eval volume 54 1 65
+
+structure Point where
+  x : Float
+  y : Float
+  z : Float
+
+def Point.sum (p1 : Point) (p2 : Point) : Point :=
+  {x := p1.x + p2.x, y := p1.2 + p2.y, z := p1.z + p2.z}
+
+def p1 : Point := {x := 1.0, y := 2.0, z := 3.0}
+
+def p2 : Point := {x := 4.0, y := 5.0, z := 6.0}
+
+#eval Point.sum p1 p2
+
+inductive Gender where
+  | man : Gender
+  | woman : Gender
+
+def Gender.kid (g : Gender) : String :=
+  match g with
+  | man => "good boy"
+  | woman => "my gril"
+
+def g : Gender := Gender.man
+def h : Gender := Gender.woman
+#eval Gender.kid g
+#eval Gender.kid h
